@@ -1,4 +1,4 @@
-# NASA Astronomy Picture of the Day (APOD) Program
+# NASA Astronomy Picture of the Day (APOD) Wallpaper Script
 
 Bu Python programı, NASA'nın Astronomy Picture of the Day (APOD) API'sini kullanarak günlük görselleri alır ve kullanıcının isteğine bağlı olarak masaüstü arkaplanı olarak ayarlar.
 
