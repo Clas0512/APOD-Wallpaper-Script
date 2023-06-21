@@ -2,17 +2,51 @@ import nasapy
 import os
 from datetime import datetime
 import urllib.request
-from gtts import gTTS
 from appscript import app, mactypes
-from IPython.display import display, clear_output
 from PIL import Image
 
 
+# This function retrieves andvalidates a date input from the user.
+def get_date():
+    while True:
+        day = input("Enter the day: ")
+        month = input("Enter the month: ")
+        year = input("Enter the year: ")
+        
+        if not day.isdigit() or not month.isdigit() or not year.isdigit():
+            print("Invalid input. Day, month, and year must be numeric values.")
+            continue
+        year = int(year)
+        day = day.zfill(2)
+        month = month.zfill(2)
+        day = int(day)
+        month = int(month)
+        
+        if not (1 <= day <= 31) or not (1 <= month <= 12):
+            print("Invalid date. Please enter valid day, month, and year.")
+            continue
+        
+        return day, month, year
+
 # API_KEY should be your private Nasa API Key.
-API_KEY = "YOUR API KEY"
+API_KEY = "YOUR_API_KEY"
 
 nasa = nasapy.Nasa(key=API_KEY)
-d = datetime.today().strftime("%Y-%m-%d")
+
+#This loop prompts the user to choose between "Today" or "Another specific day".
+while True:
+    choose = input("Today or another specific day?\n(t/s): ")
+    choose = choose.lower()
+
+    if choose == "t":
+        d = datetime.today().strftime("%Y-%m-%d")
+        break
+    elif choose == "s":
+        day, month, year = get_date()
+        d = f"{year}-{month}-{day}"
+        break
+    else:
+        print("Invalid input. Please enter 't' for today or 's' for a specific day.")
 
 apod = nasa.picture_of_the_day(date=d, hd=True)
 
@@ -27,7 +61,8 @@ if apod["media_type"] == "image":
         title = d + "_" + apod["title"].replace(" ", "_").replace(":", "_") + ".jpg"
 
         # Path of the directory:
-        image_dir = "/Users/clas0512/Desktop/APOD"
+        desktop_path = os.path.expanduser("~/Desktop")
+        image_dir = desktop_path + "/APOD"
 
         # Path of the image:
         file_path = image_dir + "/" + title
@@ -77,15 +112,23 @@ if apod["media_type"] == "image":
 
 
         # Displaying main image:
-        # display(Image(os.path.join(image_dir, title)))
         image = Image.open(os.path.join(image_dir, title))
-        display(image)
-        os.system("sleep 5")
-        clear_output()
+        image.show()
 
+        choose = input("Do you like it?? If you want to set as wallpaper\n(y/n):")
+        if choose == 'y' or choose == 'Y':
+            app('Finder').desktop_picture.set(mactypes.File(file_path))
+            exit
+        elif choose == 'n' or choose == 'N':
+            print("Astronomy Picture of the Day saved. \nExiting...")
+            exit
+        else :
+            print("Otomatic setted.\nExiting...")
+            app('Finder').desktop_picture.set(mactypes.File(file_path))
+            exit
         # Setting main image as wallpaper:
-        app('Finder').desktop_picture.set(mactypes.File(file_path))
 
 # If media type is not image:
 else:
+    print("Media type is not image. So it cannot be wallpaper.\nExiting...")
     exit
