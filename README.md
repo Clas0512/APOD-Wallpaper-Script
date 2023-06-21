@@ -2,6 +2,8 @@
 
 ![comment](Pictures/2023-06-19_The_Busy_Center_of_the_Lagoon_Nebula.jpg)
 
+# Program Tanımı
+
 Bu Python programı, NASA'nın Astronomy Picture of the Day (APOD) API'sini kullanarak günlük görselleri alır ve kullanıcının isteğine bağlı olarak masaüstü arkaplanı olarak ayarlar.
 
 ## Gereksinimler
