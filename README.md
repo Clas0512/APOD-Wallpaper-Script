@@ -15,9 +15,6 @@ Bu Python programı, NASA'nın Astronomy Picture of the Day (APOD) API'sini kull
 - PIL (Python Imaging Library) kütüphanesi (pip install pillow)
 
         pip install pillow
-- gTTS (Google Text-to-Speech) kütüphanesi (pip install gTTS)
-
-        pip install gTTS
 - appscript kütüphanesi (pip install appscript)
 
         pip install appscript
